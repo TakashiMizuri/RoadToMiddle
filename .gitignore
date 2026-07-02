@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+app/node_modules/
+
+# Build outputs
+app/dist/
+app/electron-dist/
+app/release/
+app/src-tauri/target/
+
+# Generated roadmap (rebuilt via npm run parse-roadmap)
+app/src/data/roadmap.json
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vs/
+.vscode/*
+!app/.vscode/extensions.json
+
+# Local app data is outside repo (%APPDATA%/road-to-middle-app/) — legacy only
+
+# SQLite WAL sidecars (we use DELETE journal mode; ignore if they appear)
+app.db-wal
+app.db-shm

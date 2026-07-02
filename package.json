@@ -1,0 +1,14 @@
+{
+  "name": "road-to-fullstack-middle",
+  "private": true,
+  "scripts": {
+    "parse-roadmap": "tsx scripts/parse-roadmap.ts",
+    "app:dev": "npm run parse-roadmap && cd app && npm run desktop:dev",
+    "app:build": "npm run parse-roadmap && cd app && npm run desktop:build",
+    "app:browser": "npm run parse-roadmap && cd app && npm run dev"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.4",
+    "typescript": "~5.8.3"
+  }
+}

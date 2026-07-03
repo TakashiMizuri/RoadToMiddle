@@ -7,7 +7,7 @@
 > **Треки:** Фазы 0–9 = **Middle** · Фазы 10–19 = **Middle+**
 
 <!-- LESSON-STATUS:START -->
-> **Уроки в `lessons/`:** 📚 70 полных · 📝 0 частичных · — 1763 без материалов · *обновляется: `npm run parse-roadmap`*
+> **Уроки в `lessons/`:** 📚 196 полных · 📝 0 частичных · — 1637 без материалов · *обновляется: `npm run parse-roadmap`*
 <!-- LESSON-STATUS:END -->
 
 ---
@@ -274,164 +274,164 @@
 
 ### Узел 1.1 — C#: основы языка
 **ID:** `01-csharp-basics` | **Статус:** 🔲
-> **Материалы:** 📚 0/20 · — 20
+> **Материалы:** 📚 20/20
 
 | # | Подтема | Глубина | Урок |
 |---|---------|---------|------|
-| 1.1.1 | .NET SDK install, dotnet new console, project structure | практика | — |
-| 1.1.2 | Namespaces, using, file-scoped namespaces | практика | — |
-| 1.1.3 | Primitive types: int, long, float, double, decimal, bool, char | **глубоко** | — |
-| 1.1.4 | string: immutability, intern pool, interpolation, verbatim | **глубоко** | — |
-| 1.1.5 | var vs explicit types — readability rules | понимание | — |
-| 1.1.6 | Value types vs Reference types — stack/heap diagram | **глубоко** | — |
-| 1.1.7 | Boxing/unboxing — when it happens | **глубоко** | — |
-| 1.1.8 | Operators: arithmetic, comparison, logical, null-coalescing | практика | — |
-| 1.1.9 | Control flow: if/else, switch (classic + expression) | практика | — |
-| 1.1.10 | Loops: for, while, do-while, foreach | практика | — |
-| 1.1.11 | break, continue, return — flow control | практика | — |
-| 1.1.12 | Methods: parameters, return, overloading | практика | — |
-| 1.1.13 | ref, out, in, params — semantics | **глубоко** | — |
-| 1.1.14 | Arrays: single, jagged, multidimensional | практика | — |
-| 1.1.15 | Collections intro: List, Dictionary, HashSet | практика | — |
-| 1.1.16 | StringBuilder vs string concatenation | **глубоко** | — |
-| 1.1.17 | Enums: flags, parsing, TryParse | практика | — |
-| 1.1.18 | Nullable value types: int?, DateTime?, ?? operator | понимание | — |
-| 1.1.19 | const vs readonly vs static readonly | **глубоко** | — |
-| 1.1.20 | Naming conventions, XML doc comments | практика | — |
+| 1.1.1 | .NET SDK install, dotnet new console, project structure | практика | 📚 |
+| 1.1.2 | Namespaces, using, file-scoped namespaces | практика | 📚 |
+| 1.1.3 | Primitive types: int, long, float, double, decimal, bool, char | **глубоко** | 📚 |
+| 1.1.4 | string: immutability, intern pool, interpolation, verbatim | **глубоко** | 📚 |
+| 1.1.5 | var vs explicit types — readability rules | понимание | 📚 |
+| 1.1.6 | Value types vs Reference types — stack/heap diagram | **глубоко** | 📚 |
+| 1.1.7 | Boxing/unboxing — when it happens | **глубоко** | 📚 |
+| 1.1.8 | Operators: arithmetic, comparison, logical, null-coalescing | практика | 📚 |
+| 1.1.9 | Control flow: if/else, switch (classic + expression) | практика | 📚 |
+| 1.1.10 | Loops: for, while, do-while, foreach | практика | 📚 |
+| 1.1.11 | break, continue, return — flow control | практика | 📚 |
+| 1.1.12 | Methods: parameters, return, overloading | практика | 📚 |
+| 1.1.13 | ref, out, in, params — semantics | **глубоко** | 📚 |
+| 1.1.14 | Arrays: single, jagged, multidimensional | практика | 📚 |
+| 1.1.15 | Collections intro: List, Dictionary, HashSet | практика | 📚 |
+| 1.1.16 | StringBuilder vs string concatenation | **глубоко** | 📚 |
+| 1.1.17 | Enums: flags, parsing, TryParse | практика | 📚 |
+| 1.1.18 | Nullable value types: int?, DateTime?, ?? operator | понимание | 📚 |
+| 1.1.19 | const vs readonly vs static readonly | **глубоко** | 📚 |
+| 1.1.20 | Naming conventions, XML doc comments | практика | 📚 |
 
 ### Узел 1.2 — C#: ООП
 **ID:** `01-csharp-oop` | **Статус:** 🔲
-> **Материалы:** 📚 0/18 · — 18
+> **Материалы:** 📚 18/18
 
 | # | Подтема | Глубина | Урок |
 |---|---------|---------|------|
-| 1.2.1 | Class blueprint, object instance, reference semantics | **глубоко** | — |
-| 1.2.2 | Fields, properties (auto, full, init-only, required) | практика | — |
-| 1.2.3 | Constructors, : this(), primary constructors | практика | — |
-| 1.2.4 | Access modifiers: public, private, protected, internal | понимание | — |
-| 1.2.5 | Encapsulation — why public fields are bad | **глубоко** | — |
-| 1.2.6 | Inheritance: base, override, sealed, hidden (new) | **глубоко** | — |
-| 1.2.7 | Polymorphism: virtual/override runtime dispatch | **глубоко** | — |
-| 1.2.8 | Abstract classes vs Interfaces — decision guide | **глубоко** | — |
-| 1.2.9 | Interface: implicit vs explicit implementation | **глубоко** | — |
-| 1.2.10 | Default interface methods (C# 8+) | понимание | — |
-| 1.2.11 | Composition over Inheritance — examples | **глубоко** | — |
-| 1.2.12 | static members, static classes, static constructors | понимание | — |
-| 1.2.13 | Records: positional, with-expressions, equality | практика | — |
-| 1.2.14 | struct vs class — performance, mutability | **глубоко** | — |
-| 1.2.15 | readonly struct, ref struct limitations | понимание | — |
-| 1.2.16 | Object.Equals, GetHashCode, IEquatable | **глубоко** | — |
-| 1.2.17 | Operator overloading (basics) | понимание | — |
-| 1.2.18 | Partial classes — generated code pattern | понимание | — |
+| 1.2.1 | Class blueprint, object instance, reference semantics | **глубоко** | 📚 |
+| 1.2.2 | Fields, properties (auto, full, init-only, required) | практика | 📚 |
+| 1.2.3 | Constructors, : this(), primary constructors | практика | 📚 |
+| 1.2.4 | Access modifiers: public, private, protected, internal | понимание | 📚 |
+| 1.2.5 | Encapsulation — why public fields are bad | **глубоко** | 📚 |
+| 1.2.6 | Inheritance: base, override, sealed, hidden (new) | **глубоко** | 📚 |
+| 1.2.7 | Polymorphism: virtual/override runtime dispatch | **глубоко** | 📚 |
+| 1.2.8 | Abstract classes vs Interfaces — decision guide | **глубоко** | 📚 |
+| 1.2.9 | Interface: implicit vs explicit implementation | **глубоко** | 📚 |
+| 1.2.10 | Default interface methods (C# 8+) | понимание | 📚 |
+| 1.2.11 | Composition over Inheritance — examples | **глубоко** | 📚 |
+| 1.2.12 | static members, static classes, static constructors | понимание | 📚 |
+| 1.2.13 | Records: positional, with-expressions, equality | практика | 📚 |
+| 1.2.14 | struct vs class — performance, mutability | **глубоко** | 📚 |
+| 1.2.15 | readonly struct, ref struct limitations | понимание | 📚 |
+| 1.2.16 | Object.Equals, GetHashCode, IEquatable | **глубоко** | 📚 |
+| 1.2.17 | Operator overloading (basics) | понимание | 📚 |
+| 1.2.18 | Partial classes — generated code pattern | понимание | 📚 |
 
 ### Узел 1.3 — C#: продвинутые темы
 **ID:** `01-csharp-advanced` | **Статус:** 🔲
-> **Материалы:** 📚 0/30 · — 30
+> **Материалы:** 📚 30/30
 
 | # | Подтема | Глубина | Урок |
 |---|---------|---------|------|
-| 1.3.1 | Generics: classes, methods, constraints (where T) | **глубоко** | — |
-| 1.3.2 | Covariance/out variance: IEnumerable, in/out keywords | **глубоко** | — |
-| 1.3.3 | Delegates: declaration, multicast, -= removal | **глубоко** | — |
-| 1.3.4 | Func, Action, Predicate — built-in delegates | практика | — |
-| 1.3.5 | Events: add/remove accessors, memory leak pattern | **глубоко** | — |
-| 1.3.6 | Lambda expressions: expression vs statement body | практика | — |
-| 1.3.7 | LINQ method syntax: Where, Select, OrderBy, GroupBy | **глубоко** | — |
-| 1.3.8 | LINQ query syntax — when readable | практика | — |
-| 1.3.9 | Deferred execution — IEnumerable lazy evaluation | **глубоко** | — |
-| 1.3.10 | Immediate execution — ToList, Count, First | понимание | — |
-| 1.3.11 | IEnumerable vs IQueryable — fundamental difference | **глубоко** | — |
-| 1.3.12 | Expression Trees — IQueryable provider model | **глубоко** | — |
-| 1.3.13 | Pattern matching: switch, property, list, relational | практика | — |
-| 1.3.14 | Extension methods — how they compile | **глубоко** | — |
-| 1.3.15 | Attributes and Reflection (GetCustomAttribute) | понимание | — |
-| 1.3.16 | IDisposable, using, await using, finalizers | **глубоко** | — |
-| 1.3.17 | Nullable Reference Types — #nullable enable | **глубоко** | — |
-| 1.3.18 | Index and Range (^1, ..) syntax | практика | — |
-| 1.3.19 | Local functions vs private methods | понимание | — |
-| 1.3.20 | yield return — iterator pattern | **глубоко** | — |
-| 1.3.21 | LINQ: Join, GroupJoin — SQL-like joins in memory | **глубоко** | — |
-| 1.3.22 | LINQ: SelectMany — flatten nested collections | **глубоко** | — |
-| 1.3.23 | LINQ: Aggregate, Scan — fold operations | **глубоко** | — |
-| 1.3.24 | LINQ: Any, All, Contains — existence checks | практика | — |
-| 1.3.25 | LINQ: Distinct, Union, Intersect, Except | **глубоко** | — |
-| 1.3.26 | LINQ: Take, Skip, TakeWhile, SkipWhile | практика | — |
-| 1.3.27 | LINQ: First vs Single vs FirstOrDefault — semantics | **глубоко** | — |
-| 1.3.28 | LINQ: OrderBy, ThenBy — stable sort | практика | — |
-| 1.3.29 | Custom IEnumerable with yield — lazy pipelines | **глубоко** | — |
-| 1.3.30 | LINQ performance — avoid multiple enumeration | **глубоко** | — |
+| 1.3.1 | Generics: classes, methods, constraints (where T) | **глубоко** | 📚 |
+| 1.3.2 | Covariance/out variance: IEnumerable, in/out keywords | **глубоко** | 📚 |
+| 1.3.3 | Delegates: declaration, multicast, -= removal | **глубоко** | 📚 |
+| 1.3.4 | Func, Action, Predicate — built-in delegates | практика | 📚 |
+| 1.3.5 | Events: add/remove accessors, memory leak pattern | **глубоко** | 📚 |
+| 1.3.6 | Lambda expressions: expression vs statement body | практика | 📚 |
+| 1.3.7 | LINQ method syntax: Where, Select, OrderBy, GroupBy | **глубоко** | 📚 |
+| 1.3.8 | LINQ query syntax — when readable | практика | 📚 |
+| 1.3.9 | Deferred execution — IEnumerable lazy evaluation | **глубоко** | 📚 |
+| 1.3.10 | Immediate execution — ToList, Count, First | понимание | 📚 |
+| 1.3.11 | IEnumerable vs IQueryable — fundamental difference | **глубоко** | 📚 |
+| 1.3.12 | Expression Trees — IQueryable provider model | **глубоко** | 📚 |
+| 1.3.13 | Pattern matching: switch, property, list, relational | практика | 📚 |
+| 1.3.14 | Extension methods — how they compile | **глубоко** | 📚 |
+| 1.3.15 | Attributes and Reflection (GetCustomAttribute) | понимание | 📚 |
+| 1.3.16 | IDisposable, using, await using, finalizers | **глубоко** | 📚 |
+| 1.3.17 | Nullable Reference Types — #nullable enable | **глубоко** | 📚 |
+| 1.3.18 | Index and Range (^1, ..) syntax | практика | 📚 |
+| 1.3.19 | Local functions vs private methods | понимание | 📚 |
+| 1.3.20 | yield return — iterator pattern | **глубоко** | 📚 |
+| 1.3.21 | LINQ: Join, GroupJoin — SQL-like joins in memory | **глубоко** | 📚 |
+| 1.3.22 | LINQ: SelectMany — flatten nested collections | **глубоко** | 📚 |
+| 1.3.23 | LINQ: Aggregate, Scan — fold operations | **глубоко** | 📚 |
+| 1.3.24 | LINQ: Any, All, Contains — existence checks | практика | 📚 |
+| 1.3.25 | LINQ: Distinct, Union, Intersect, Except | **глубоко** | 📚 |
+| 1.3.26 | LINQ: Take, Skip, TakeWhile, SkipWhile | практика | 📚 |
+| 1.3.27 | LINQ: First vs Single vs FirstOrDefault — semantics | **глубоко** | 📚 |
+| 1.3.28 | LINQ: OrderBy, ThenBy — stable sort | практика | 📚 |
+| 1.3.29 | Custom IEnumerable with yield — lazy pipelines | **глубоко** | 📚 |
+| 1.3.30 | LINQ performance — avoid multiple enumeration | **глубоко** | 📚 |
 
 ### Узел 1.4 — C#: асинхронность ⚡
 **ID:** `01-csharp-async` | **Статус:** 🔲
-> **Материалы:** 📚 0/42 · — 42
+> **Материалы:** 📚 42/42
 
 | # | Подтема | Глубина | Урок |
 |---|---------|---------|------|
-| 1.4.1 | Threads 101: kernel thread, thread pool, context switch cost | **глубоко** | — |
-| 1.4.2 | I/O-bound vs CPU-bound — why async helps only I/O | **глубоко** | — |
-| 1.4.3 | Task class: Status, IsCompleted, Exception | **глубоко** | — |
-| 1.4.4 | Task.Run — offload CPU work, don't for I/O | **глубоко** | — |
-| 1.4.5 | TaskCompletionSource — manual task control | **глубоко** | — |
-| 1.4.6 | async/await — compiler transformation overview | **глубоко** | — |
-| 1.4.7 | State machine: IAsyncStateMachine, MoveNext disassembly | **глубоко** | — |
-| 1.4.8 | ConfigureAwait(false) — library vs app code | **глубоко** | — |
-| 1.4.9 | SynchronizationContext — ASP.NET Core has none | **глубоко** | — |
-| 1.4.10 | Thread pool starvation — symptoms and fixes | **глубоко** | — |
-| 1.4.11 | CancellationToken: Register, linked tokens, CancelAfter | **глубоко** | — |
-| 1.4.12 | Task.WhenAll, WhenAny — parallel I/O | практика | — |
-| 1.4.13 | async void — exception handling nightmare | **глубоко** | — |
-| 1.4.14 | .Result, .Wait(), GetAwaiter().GetResult() deadlocks | **глубоко** | — |
-| 1.4.15 | ValueTask — pooling, don't await twice | **глубоко** | — |
-| 1.4.16 | IAsyncEnumerable — async streams | понимание | — |
-| 1.4.17 | Channels — producer/consumer pattern | понимание | — |
-| 1.4.18 | SemaphoreSlim for throttling | практика | — |
-| 1.4.19 | Exception handling: try/catch in async, AggregateException | **глубоко** | — |
-| 1.4.20 | Async all the way — no sync-over-async | **глубоко** | — |
-| 1.4.21 | TaskScheduler.FromCurrentSynchronizationContext | понимание | — |
-| 1.4.22 | Benchmark: sync vs async HTTP call — thread usage | практика | — |
-| 1.4.23 | Awaitable pattern — GetAwaiter, INotifyCompletion | **глубоко** | — |
-| 1.4.24 | Task.Factory.StartNew — why avoid, use Task.Run | **глубоко** | — |
-| 1.4.25 | Parallel.ForEachAsync — bounded parallel I/O | практика | — |
-| 1.4.26 | HttpClient pitfalls — DNS, socket exhaustion | **глубоко** | — |
-| 1.4.27 | IHttpClientFactory — named clients, handlers | **глубоко** | — |
-| 1.4.28 | Polly — retry, timeout, circuit breaker with HttpClient | **глубоко** | — |
-| 1.4.29 | CancellationToken in ASP.NET — RequestAborted | **глубоко** | — |
-| 1.4.30 | Fire-and-forget Task — safe patterns, traps in web apps | **глубоко** | — |
-| 1.4.31 | UnobservedTaskException — global handler | **глубоко** | — |
-| 1.4.32 | AsyncLocal — ambient context in async chain | понимание | — |
-| 1.4.33 | Lock in async code — SemaphoreSlim vs lock | **глубоко** | — |
-| 1.4.34 | BackgroundTaskQueue in ASP.NET — channel pattern | **глубоко** | — |
-| 1.4.35 | IAsyncDisposable — async cleanup | **глубоко** | — |
-| 1.4.36 | TimeProvider (.NET 8+) — testable delays | практика | — |
-| 1.4.37 | Debugging async — Tasks window, async stack traces | практика | — |
-| 1.4.38 | Interview traps: async in ctor, property getters | **глубоко** | — |
-| 1.4.39 | Task vs ValueTask — decision tree | **глубоко** | — |
-| 1.4.40 | End-to-end: HTTP request → service → DB async diagram | **глубоко** | — |
-| 1.4.41 | Compare sync-over-async fixes in legacy code | **глубоко** | — |
-| 1.4.42 | Async all-the-way checklist for ASP.NET projects | **глубоко** | — |
+| 1.4.1 | Threads 101: kernel thread, thread pool, context switch cost | **глубоко** | 📚 |
+| 1.4.2 | I/O-bound vs CPU-bound — why async helps only I/O | **глубоко** | 📚 |
+| 1.4.3 | Task class: Status, IsCompleted, Exception | **глубоко** | 📚 |
+| 1.4.4 | Task.Run — offload CPU work, don't for I/O | **глубоко** | 📚 |
+| 1.4.5 | TaskCompletionSource — manual task control | **глубоко** | 📚 |
+| 1.4.6 | async/await — compiler transformation overview | **глубоко** | 📚 |
+| 1.4.7 | State machine: IAsyncStateMachine, MoveNext disassembly | **глубоко** | 📚 |
+| 1.4.8 | ConfigureAwait(false) — library vs app code | **глубоко** | 📚 |
+| 1.4.9 | SynchronizationContext — ASP.NET Core has none | **глубоко** | 📚 |
+| 1.4.10 | Thread pool starvation — symptoms and fixes | **глубоко** | 📚 |
+| 1.4.11 | CancellationToken: Register, linked tokens, CancelAfter | **глубоко** | 📚 |
+| 1.4.12 | Task.WhenAll, WhenAny — parallel I/O | практика | 📚 |
+| 1.4.13 | async void — exception handling nightmare | **глубоко** | 📚 |
+| 1.4.14 | .Result, .Wait(), GetAwaiter().GetResult() deadlocks | **глубоко** | 📚 |
+| 1.4.15 | ValueTask — pooling, don't await twice | **глубоко** | 📚 |
+| 1.4.16 | IAsyncEnumerable — async streams | понимание | 📚 |
+| 1.4.17 | Channels — producer/consumer pattern | понимание | 📚 |
+| 1.4.18 | SemaphoreSlim for throttling | практика | 📚 |
+| 1.4.19 | Exception handling: try/catch in async, AggregateException | **глубоко** | 📚 |
+| 1.4.20 | Async all the way — no sync-over-async | **глубоко** | 📚 |
+| 1.4.21 | TaskScheduler.FromCurrentSynchronizationContext | понимание | 📚 |
+| 1.4.22 | Benchmark: sync vs async HTTP call — thread usage | практика | 📚 |
+| 1.4.23 | Awaitable pattern — GetAwaiter, INotifyCompletion | **глубоко** | 📚 |
+| 1.4.24 | Task.Factory.StartNew — why avoid, use Task.Run | **глубоко** | 📚 |
+| 1.4.25 | Parallel.ForEachAsync — bounded parallel I/O | практика | 📚 |
+| 1.4.26 | HttpClient pitfalls — DNS, socket exhaustion | **глубоко** | 📚 |
+| 1.4.27 | IHttpClientFactory — named clients, handlers | **глубоко** | 📚 |
+| 1.4.28 | Polly — retry, timeout, circuit breaker with HttpClient | **глубоко** | 📚 |
+| 1.4.29 | CancellationToken in ASP.NET — RequestAborted | **глубоко** | 📚 |
+| 1.4.30 | Fire-and-forget Task — safe patterns, traps in web apps | **глубоко** | 📚 |
+| 1.4.31 | UnobservedTaskException — global handler | **глубоко** | 📚 |
+| 1.4.32 | AsyncLocal — ambient context in async chain | понимание | 📚 |
+| 1.4.33 | Lock in async code — SemaphoreSlim vs lock | **глубоко** | 📚 |
+| 1.4.34 | BackgroundTaskQueue in ASP.NET — channel pattern | **глубоко** | 📚 |
+| 1.4.35 | IAsyncDisposable — async cleanup | **глубоко** | 📚 |
+| 1.4.36 | TimeProvider (.NET 8+) — testable delays | практика | 📚 |
+| 1.4.37 | Debugging async — Tasks window, async stack traces | практика | 📚 |
+| 1.4.38 | Interview traps: async in ctor, property getters | **глубоко** | 📚 |
+| 1.4.39 | Task vs ValueTask — decision tree | **глубоко** | 📚 |
+| 1.4.40 | End-to-end: HTTP request → service → DB async diagram | **глубоко** | 📚 |
+| 1.4.41 | Compare sync-over-async fixes in legacy code | **глубоко** | 📚 |
+| 1.4.42 | Async all-the-way checklist for ASP.NET projects | **глубоко** | 📚 |
 
 ### Узел 1.5 — C#: .NET Runtime и память
 **ID:** `01-csharp-runtime` | **Статус:** 🔲
-> **Материалы:** 📚 0/16 · — 16
+> **Материалы:** 📚 16/16
 
 | # | Подтема | Глубина | Урок |
 |---|---------|---------|------|
-| 1.5.1 | CLR, managed code, IL bytecode | **глубоко** | — |
-| 1.5.2 | JIT compilation: Tier 0/1/2 optimization | **глубоко** | — |
-| 1.5.3 | Assembly: metadata, manifest, resources | понимание | — |
-| 1.5.4 | Stack frames, call stack, stack overflow | **глубоко** | — |
-| 1.5.5 | Heap allocation, object headers, alignment | **глубоко** | — |
-| 1.5.6 | GC roots, reachability, mark phase | **глубоко** | — |
-| 1.5.7 | Generations Gen0/Gen1/Gen2, promotion | **глубоко** | — |
-| 1.5.8 | Large Object Heap (LOH), fragmentation | **глубоко** | — |
-| 1.5.9 | GC modes: workstation vs server | понимание | — |
-| 1.5.10 | IDisposable vs finalizer — Dispose pattern | **глубоко** | — |
-| 1.5.11 | Memory leaks in managed code — event handlers, static | **глубоко** | — |
-| 1.5.12 | Span, ReadOnlySpan, Memory — stack-safe slicing | **глубоко** | — |
-| 1.5.13 | stackalloc — stack allocation | понимание | — |
-| 1.5.14 | ArrayPool — rent/return pattern | понимание | — |
-| 1.5.15 | Exception hierarchy, throw vs throw ex | понимание | — |
-| 1.5.16 | NuGet: packages, transitive dependencies, Central Package Management | практика | — |
+| 1.5.1 | CLR, managed code, IL bytecode | **глубоко** | 📚 |
+| 1.5.2 | JIT compilation: Tier 0/1/2 optimization | **глубоко** | 📚 |
+| 1.5.3 | Assembly: metadata, manifest, resources | понимание | 📚 |
+| 1.5.4 | Stack frames, call stack, stack overflow | **глубоко** | 📚 |
+| 1.5.5 | Heap allocation, object headers, alignment | **глубоко** | 📚 |
+| 1.5.6 | GC roots, reachability, mark phase | **глубоко** | 📚 |
+| 1.5.7 | Generations Gen0/Gen1/Gen2, promotion | **глубоко** | 📚 |
+| 1.5.8 | Large Object Heap (LOH), fragmentation | **глубоко** | 📚 |
+| 1.5.9 | GC modes: workstation vs server | понимание | 📚 |
+| 1.5.10 | IDisposable vs finalizer — Dispose pattern | **глубоко** | 📚 |
+| 1.5.11 | Memory leaks in managed code — event handlers, static | **глубоко** | 📚 |
+| 1.5.12 | Span, ReadOnlySpan, Memory — stack-safe slicing | **глубоко** | 📚 |
+| 1.5.13 | stackalloc — stack allocation | понимание | 📚 |
+| 1.5.14 | ArrayPool — rent/return pattern | понимание | 📚 |
+| 1.5.15 | Exception hierarchy, throw vs throw ex | понимание | 📚 |
+| 1.5.16 | NuGet: packages, transitive dependencies, Central Package Management | практика | 📚 |
 
 ### Узел 1.6 — SQL: язык запросов
 **ID:** `01-sql` | **Статус:** 🔲

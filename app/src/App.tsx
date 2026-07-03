@@ -9,6 +9,7 @@ import { STUDY_STATS_UPDATED } from "@/lib/study-stats-events";
 import { useProgressStore } from "@/stores/progressStore";
 import { useSettingsStore } from "@/stores/settingsStore";
 import { Sidebar } from "@/components/Sidebar";
+import { ResizableSidebarPanel } from "@/components/ResizableSidebarPanel";
 import { LessonView } from "@/components/LessonView";
 import { PomodoroWidget } from "@/components/PomodoroWidget";
 import { DashboardPage } from "@/pages/DashboardPage";
@@ -187,25 +188,18 @@ export default function App() {
       )}
 
       <div className="flex min-h-0 flex-1">
-        {view === "learn" && (
-          <div
-            className={cn(
-              "relative shrink-0 overflow-hidden border-r border-neutral-200/80 bg-white transition-[width] duration-200 ease-in-out dark:border-neutral-800 dark:bg-neutral-950",
-              showLessonSidebar ? "w-72" : "w-0 border-r-0",
-            )}
-          >
-            <div className="flex h-full w-72 flex-col">
-              <Sidebar
-                roadmap={roadmap}
-                progressMap={progressMap}
-                selectedId={selectedId}
-                hideCompleted={hideCompleted}
-                onSelect={navigateToSubtopic}
-                scrollRef={sidebarScrollRef}
-                onCollapse={() => setShowLessonSidebar(false)}
-              />
-            </div>
-          </div>
+        {view === "learn" && showLessonSidebar && (
+          <ResizableSidebarPanel>
+            <Sidebar
+              roadmap={roadmap}
+              progressMap={progressMap}
+              selectedId={selectedId}
+              hideCompleted={hideCompleted}
+              onSelect={navigateToSubtopic}
+              scrollRef={sidebarScrollRef}
+              onCollapse={() => setShowLessonSidebar(false)}
+            />
+          </ResizableSidebarPanel>
         )}
 
         {view === "learn" && !showLessonSidebar && (

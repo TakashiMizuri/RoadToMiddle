@@ -1,7 +1,7 @@
 import {
   createBackend,
-  STEP_FILES,
   STORAGE_KEYS,
+  resolveStepFilenames,
   type KeyValueStorage,
 } from "./backend-core";
 
@@ -21,12 +21,14 @@ function saveJson(key: string, value: unknown) {
 const storage: KeyValueStorage = { load: loadJson, save: saveJson };
 
 async function fetchLessonFile(subtopic_id: string, step: string): Promise<string> {
-  const file = STEP_FILES[step];
-  if (!file) throw new Error(`Unknown step: ${step}`);
-  const url = `/lessons/${subtopic_id}/${file}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Lesson file not found: ${url}`);
-  return res.text();
+  let lastUrl = "";
+  for (const file of resolveStepFilenames(step)) {
+    const url = `/lessons/${subtopic_id}/${file}`;
+    lastUrl = url;
+    const res = await fetch(url);
+    if (res.ok) return res.text();
+  }
+  throw new Error(`Lesson file not found: ${lastUrl}`);
 }
 
 export const browserApi = createBackend({

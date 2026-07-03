@@ -156,6 +156,7 @@
 | **CI/CD (GitHub Actions / GitLab CI)**       | Автосборка, тесты, deploy                     |
 | **Serilog / structured logging**             | Логирование с контекстом, correlation ID      |
 | **OpenTelemetry (basics)**                   | Traces, metrics, logs — unified observability |
+| **Sentry**                                   | Frontend error tracking, releases, source maps — `14-sentry` |
 | **Health Checks**                            | Liveness/readiness probes                     |
 | **FluentValidation**                         | Валидация входных данных                      |
 | **AutoMapper / Mapster**                     | Mapping DTO ↔ Entity (понимать trade-offs)    |
@@ -215,7 +216,7 @@
 
 | Технология                          | Зачем                                          |
 | ----------------------------------- | ---------------------------------------------- |
-| **Elasticsearch**                   | Full-text search, log aggregation              |
+| **Elasticsearch**                   | Full-text search, log aggregation — lab `16-search-lab` |
 | **Kubernetes (basics)**             | Orchestration, pods, services, ingress         |
 | **Terraform (concept)**             | Infrastructure as Code                         |
 | **WebAssembly (basics)**            | Blazor WASM, performance-critical frontend     |
@@ -238,6 +239,7 @@
 | ----------------------------------- | ------------------------------------------------- |
 | **Big O notation**                  | Оценка сложности алгоритмов и запросов            |
 | **Data Structures**                 | Array, List, HashMap, Stack, Queue, Tree, Graph   |
+| **Algorithms in .NET/EF**           | N+1, O(n²) в LINQ, pagination cost — узел `1.18`  |
 | **Sorting & Searching**             | Binary search, quicksort — понимать, не заучивать |
 | **Recursion**                       | Деревья, divide & conquer                         |
 | **Concurrency vs Parallelism**      | Threads, locks — связь с async                    |
@@ -328,7 +330,7 @@ MIDDLE+ (10–19):
 | C#               | `01-csharp-*` (5 узлов)                   |
 | SQL / PostgreSQL | `01-sql`, `01-postgresql`, `01-db-design` |
 | ASP.NET Core     | `01-aspnetcore-*` (4 узла)                |
-| EF Core          | `01-efcore`, `01-efcore-advanced`         |
+| EF Core          | `01-efcore`, `01-efcore-advanced`, `01-algorithms-dotnet-ef` |
 | JavaScript / TS  | `02-javascript`, `02-typescript`          |
 | React            | `02-react-*` (5 узлов)                    |
 | Auth             | `03-auth`, `03-security-deep`             |
@@ -340,7 +342,7 @@ MIDDLE+ (10–19):
 | Kubernetes       | `11-*` (9 узлов)                          |
 | System Design    | `12-*` (12 узлов)                         |
 | Distributed      | `13-*` (10 узлов)                         |
-| Observability+   | `14-*` (9 узлов)                          |
+| Observability+   | `14-*` (10 узлов)                          |
 | Security Middle+ | `15-*` (5 узлов)                          |
 | Capstone 2       | `19-capstone-2`                           |
 

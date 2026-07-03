@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { resolveStepFilenames } from "../app/src/lib/lesson-steps.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -45,9 +46,18 @@ function parseBlocks(section: string, isAnswer = false) {
   return map;
 }
 
+function readLessonFile(subtopicId: string, step: string): string {
+  const dir = path.join(root, "lessons", subtopicId);
+  for (const file of resolveStepFilenames(step)) {
+    const full = path.join(dir, file);
+    if (fs.existsSync(full)) return fs.readFileSync(full, "utf-8").replace(/\r\n/g, "\n");
+  }
+  throw new Error(`Lesson file not found for step ${step} in ${dir}`);
+}
+
 function loadCards(subtopicId: string) {
-  const test = fs.readFileSync(path.join(root, `lessons/${subtopicId}/3.test-yourself.md`), "utf-8").replace(/\r\n/g, "\n");
-  const answers = fs.readFileSync(path.join(root, `lessons/${subtopicId}/4.test-yourself-answers.md`), "utf-8").replace(/\r\n/g, "\n");
+  const test = readLessonFile(subtopicId, "test");
+  const answers = readLessonFile(subtopicId, "answers");
 
   let qSection = test.slice(test.indexOf("## Questions"));
   const selfCheck = qSection.indexOf("## Self-Check");

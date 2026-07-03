@@ -18,7 +18,7 @@ Learning roadmap and desktop app for the path **Junior → Middle → Middle+** 
 
 | [AGENTS.md](./AGENTS.md) | AI mentor instructions |
 
-| [lessons/](./lessons/) | Lesson content (`1.lection.md` … `5.exercises.md`) |
+| [lessons/](./lessons/) | Lesson content (`1.lection-eng.md` … `6.exercises.md`) |
 
 | [app/](./app/) | **Desktop learning app** (Electron + React) |
 
@@ -28,7 +28,7 @@ Learning roadmap and desktop app for the path **Junior → Middle → Middle+** 
 
 
 
-Browse all topics, follow the lesson flow (lection → summary → test → answers → exercises), track progress, view stats, use Pomodoro, and **review completed topics** with flashcard mode.
+Browse all topics, follow the lesson flow (lection EN → lection RU → summary → test → answers → exercises), track progress, view stats, use Pomodoro, and **review completed topics** with flashcard mode.
 
 
 
@@ -40,7 +40,7 @@ Tab **Review**:
 
 
 
-- Flashcards from completed subtopics (`3.test-yourself.md` + answers)
+- Flashcards from completed subtopics (`4.test-yourself.md` + answers)
 
 - Select specific topics or all completed
 

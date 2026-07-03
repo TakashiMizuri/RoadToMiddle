@@ -40,7 +40,7 @@ export function LessonView({ roadmap, subtopicId, onNavigate }: LessonViewProps)
 
   const { progressMap, setProgress, refreshSubtopic } = useProgressStore();
 
-  const [step, setStep] = useState<LessonStep>("lection");
+  const [step, setStep] = useState<LessonStep>("lection_eng");
 
   const [content, setContent] = useState<string>("");
 
@@ -81,17 +81,17 @@ export function LessonView({ roadmap, subtopicId, onNavigate }: LessonViewProps)
 
 
   const availableSteps = useMemo(() => {
-
     if (!subtopic) return STEP_ORDER.slice(0, 4);
 
-    const steps = STEP_ORDER.filter(
+    if (subtopic.stepsAvailable.length > 0) {
+      return STEP_ORDER.filter((s) => subtopic.stepsAvailable.includes(s));
+    }
 
-      (s) => s === "exercises" ? subtopic.stepsAvailable.includes("exercises") : subtopic.stepsAvailable.includes(s) || subtopic.hasLesson,
+    if (subtopic.hasLesson) {
+      return STEP_ORDER.filter((s) => s !== "lection_ru" && s !== "exercises");
+    }
 
-    );
-
-    return steps.length ? steps : STEP_ORDER.slice(0, 4);
-
+    return STEP_ORDER.slice(0, 4);
   }, [subtopic]);
 
 
@@ -176,7 +176,7 @@ export function LessonView({ roadmap, subtopicId, onNavigate }: LessonViewProps)
     void api.startSubtopic(subtopicId).then((p) => {
       setProgress(p);
       setLoading(true);
-      setStep((p.current_step as LessonStep) ?? "lection");
+      setStep((p.current_step as LessonStep) ?? "lection_eng");
     });
   }, [subtopicId, setProgress]);
 
@@ -325,6 +325,8 @@ export function LessonView({ roadmap, subtopicId, onNavigate }: LessonViewProps)
 
             const locked = s === "answers" && !canOpenAnswers;
 
+            const done = progress?.steps_completed.includes(s) ?? false;
+
             return (
 
               <button
@@ -355,7 +357,25 @@ export function LessonView({ roadmap, subtopicId, onNavigate }: LessonViewProps)
 
               >
 
-                {locked && <Lock className="h-3 w-3" />}
+                {done && (
+
+                  <CheckCircle2
+
+                    className={cn(
+
+                      "h-3.5 w-3.5 shrink-0",
+
+                      step === s ? "text-emerald-300" : "text-emerald-500",
+
+                    )}
+
+                    aria-hidden
+
+                  />
+
+                )}
+
+                {locked && !done && <Lock className="h-3 w-3 shrink-0" aria-hidden />}
 
                 {STEP_LABELS[s]}
 

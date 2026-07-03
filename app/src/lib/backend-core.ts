@@ -9,14 +9,9 @@ import type {
 } from "./types";
 import { parseReviewCardsFromMarkdown } from "./parse-review-cards";
 import { buildYearDates, getCurrentYear } from "./calendar-year";
+import { STEP_COMPLETION_ORDER, normalizeLessonStep, resolveNextStep } from "./lesson-steps.js";
 
-export const STEP_FILES: Record<string, string> = {
-  lection: "1.lection.md",
-  summary: "2.summary.md",
-  test: "3.test-yourself.md",
-  answers: "4.test-yourself-answers.md",
-  exercises: "5.exercises.md",
-};
+export { STEP_FILES, resolveStepFilenames, normalizeLessonStep, resolveNextStep } from "./lesson-steps.js";
 
 export const STORAGE_KEYS = {
   settings: "rtfm_settings",
@@ -37,6 +32,7 @@ export interface BackendOptions {
   readLessonFile: (subtopic_id: string, step: string) => Promise<string>;
   detectRepoPath: () => Promise<string | null>;
   exportProgressMd?: (progress: SubtopicProgress[], repoPath: string) => Promise<void>;
+  isStepAvailable?: (subtopic_id: string, step: string) => Promise<boolean>;
 }
 
 interface StoredStudySession {
@@ -73,7 +69,7 @@ function defaultProgress(subtopic_id: string): SubtopicProgress {
   return {
     subtopic_id,
     status: "not_started",
-    current_step: "lection",
+    current_step: "lection_eng",
     steps_completed: [],
     test_score: null,
     test_max_score: null,
@@ -81,6 +77,15 @@ function defaultProgress(subtopic_id: string): SubtopicProgress {
     started_at: null,
     completed_at: null,
     total_study_seconds: 0,
+  };
+}
+
+function normalizeProgress(p: SubtopicProgress): SubtopicProgress {
+  const mapStep = (s: string) => (s === "lection" ? "lection_eng" : s);
+  return {
+    ...p,
+    current_step: mapStep(p.current_step),
+    steps_completed: p.steps_completed.map(mapStep),
   };
 }
 
@@ -125,7 +130,23 @@ function isSince(iso: string, sinceIso: string): boolean {
 }
 
 export function createBackend(options: BackendOptions) {
-  const { storage, readLessonFile, detectRepoPath, exportProgressMd } = options;
+  const {
+    storage,
+    readLessonFile,
+    detectRepoPath,
+    exportProgressMd,
+    isStepAvailable: isStepAvailableOpt,
+  } = options;
+
+  async function stepAvailable(subtopic_id: string, step: string): Promise<boolean> {
+    if (isStepAvailableOpt) return isStepAvailableOpt(subtopic_id, step);
+    try {
+      await readLessonFile(subtopic_id, step);
+      return true;
+    } catch {
+      return false;
+    }
+  }
   const K = STORAGE_KEYS;
 
   const loadJson = <T,>(key: string, fallback: T): T => storage.load(key, fallback);
@@ -247,10 +268,11 @@ export function createBackend(options: BackendOptions) {
 
     detectRepoPath,
 
-    getAllProgress: async (): Promise<SubtopicProgress[]> => Object.values(getProgressMap()),
+    getAllProgress: async (): Promise<SubtopicProgress[]> =>
+      Object.values(getProgressMap()).map(normalizeProgress),
 
     getSubtopicProgress: async (subtopic_id: string): Promise<SubtopicProgress> =>
-      getProgressMap()[subtopic_id] ?? defaultProgress(subtopic_id),
+      normalizeProgress(getProgressMap()[subtopic_id] ?? defaultProgress(subtopic_id)),
 
     readLessonStep: async (subtopic_id: string, step: string): Promise<LessonContent> => {
       const content = await readLessonFile(subtopic_id, step);
@@ -271,7 +293,7 @@ export function createBackend(options: BackendOptions) {
       map[subtopic_id] = p;
       saveProgressMap(map);
       await maybeSyncProgress();
-      return p;
+      return normalizeProgress(p);
     },
 
     completeStep: async (
@@ -281,28 +303,34 @@ export function createBackend(options: BackendOptions) {
     ): Promise<SubtopicProgress> => {
       const map = getProgressMap();
       const p = { ...(map[subtopic_id] ?? defaultProgress(subtopic_id)) };
-      if (!p.steps_completed.includes(step)) p.steps_completed.push(step);
+      const normalizedStep = normalizeLessonStep(step);
+      if (!p.steps_completed.includes(normalizedStep)) {
+        p.steps_completed.push(normalizedStep);
+      }
       if (!p.started_at) p.started_at = new Date().toISOString();
       p.status = "in_progress";
 
-      const order = ["lection", "summary", "test", "answers", "exercises"];
-      const idx = order.indexOf(step);
-      if (idx >= 0 && idx < order.length - 1) {
-        const next = order[idx + 1];
-        if (next === "exercises" && !has_exercises) {
-          if (step === "answers" && testPassed(p)) {
-            p.status = "completed";
-            p.completed_at = new Date().toISOString();
-          }
-        } else if (next !== "exercises" || has_exercises) {
-          p.current_step = next;
+      const availability = new Map<string, boolean>();
+      for (const s of STEP_COMPLETION_ORDER) {
+        if (s === "exercises" && !has_exercises) {
+          availability.set(s, false);
+          continue;
         }
+        availability.set(s, await stepAvailable(subtopic_id, s));
       }
-      if (step === "answers" && !has_exercises && testPassed(p)) {
+      const isAvailable = (s: (typeof STEP_COMPLETION_ORDER)[number]) =>
+        availability.get(s) ?? false;
+
+      const next = resolveNextStep(normalizedStep, has_exercises, isAvailable);
+      if (next) {
+        p.current_step = next;
+      }
+
+      if (normalizedStep === "answers" && !has_exercises && testPassed(p)) {
         p.status = "completed";
         p.completed_at = new Date().toISOString();
       }
-      if (step === "exercises") {
+      if (normalizedStep === "exercises") {
         p.status = "completed";
         p.completed_at = new Date().toISOString();
       }
@@ -310,7 +338,7 @@ export function createBackend(options: BackendOptions) {
       map[subtopic_id] = p;
       saveProgressMap(map);
       await maybeSyncProgress();
-      return p;
+      return normalizeProgress(p);
     },
 
     submitTestScore: async (
@@ -333,7 +361,7 @@ export function createBackend(options: BackendOptions) {
       map[subtopic_id] = p;
       saveProgressMap(map);
       await maybeSyncProgress();
-      return p;
+      return normalizeProgress(p);
     },
 
     markSubtopicCompleted: async (subtopic_id: string): Promise<SubtopicProgress> => {
@@ -344,7 +372,7 @@ export function createBackend(options: BackendOptions) {
       map[subtopic_id] = p;
       saveProgressMap(map);
       await maybeSyncProgress();
-      return p;
+      return normalizeProgress(p);
     },
 
     recordStudyHeartbeat: async (

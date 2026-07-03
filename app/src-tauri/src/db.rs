@@ -38,7 +38,8 @@ impl SubtopicStatus {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum LessonStep {
-    Lection,
+    LectionEng,
+    LectionRu,
     Summary,
     Test,
     Answers,
@@ -48,7 +49,8 @@ pub enum LessonStep {
 impl LessonStep {
     pub fn as_str(&self) -> &'static str {
         match self {
-            Self::Lection => "lection",
+            Self::LectionEng => "lection_eng",
+            Self::LectionRu => "lection_ru",
             Self::Summary => "summary",
             Self::Test => "test",
             Self::Answers => "answers",
@@ -58,27 +60,31 @@ impl LessonStep {
 
     pub fn from_str(s: &str) -> Self {
         match s {
+            "lection" | "lection_eng" => Self::LectionEng,
+            "lection_ru" => Self::LectionRu,
             "summary" => Self::Summary,
             "test" => Self::Test,
             "answers" => Self::Answers,
             "exercises" => Self::Exercises,
-            _ => Self::Lection,
+            _ => Self::LectionEng,
         }
     }
 
-    pub fn file_name(&self) -> &'static str {
+    pub fn file_candidates(&self) -> &'static [&'static str] {
         match self {
-            Self::Lection => "1.lection.md",
-            Self::Summary => "2.summary.md",
-            Self::Test => "3.test-yourself.md",
-            Self::Answers => "4.test-yourself-answers.md",
-            Self::Exercises => "5.exercises.md",
+            Self::LectionEng => &["1.lection-eng.md", "1.lection.md"],
+            Self::LectionRu => &["2.lection-ru.md"],
+            Self::Summary => &["3.summary.md", "2.summary.md"],
+            Self::Test => &["4.test-yourself.md", "3.test-yourself.md"],
+            Self::Answers => &["5.test-yourself-answers.md", "4.test-yourself-answers.md"],
+            Self::Exercises => &["6.exercises.md", "5.exercises.md"],
         }
     }
 
     pub fn next(&self, has_exercises: bool) -> Option<Self> {
         match self {
-            Self::Lection => Some(Self::Summary),
+            Self::LectionEng => Some(Self::LectionRu),
+            Self::LectionRu => Some(Self::Summary),
             Self::Summary => Some(Self::Test),
             Self::Test => Some(Self::Answers),
             Self::Answers if has_exercises => Some(Self::Exercises),
@@ -195,7 +201,7 @@ fn run_migrations(conn: &Connection) -> Result<(), String> {
         CREATE TABLE IF NOT EXISTS subtopic_progress (
             subtopic_id TEXT PRIMARY KEY,
             status TEXT NOT NULL DEFAULT 'not_started',
-            current_step TEXT NOT NULL DEFAULT 'lection',
+            current_step TEXT NOT NULL DEFAULT 'lection_eng',
             steps_completed TEXT NOT NULL DEFAULT '[]',
             test_score INTEGER,
             test_max_score INTEGER,
@@ -345,7 +351,7 @@ pub fn get_progress(conn: &Connection, subtopic_id: &str) -> Result<SubtopicProg
     .unwrap_or(SubtopicProgress {
         subtopic_id: subtopic_id.to_string(),
         status: SubtopicStatus::NotStarted,
-        current_step: LessonStep::Lection.as_str().to_string(),
+        current_step: LessonStep::LectionEng.as_str().to_string(),
         steps_completed: vec![],
         test_score: None,
         test_max_score: None,
@@ -431,14 +437,18 @@ pub fn read_lesson_file(
     subtopic_id: &str,
     step: &LessonStep,
 ) -> Result<String, String> {
-    let path = repo
-        .join("lessons")
-        .join(subtopic_id)
-        .join(step.file_name());
-    if !path.exists() {
-        return Err(format!("Lesson file not found: {}", path.display()));
+    let dir = repo.join("lessons").join(subtopic_id);
+    for name in step.file_candidates() {
+        let path = dir.join(name);
+        if path.exists() {
+            return std::fs::read_to_string(&path).map_err(|e| e.to_string());
+        }
     }
-    std::fs::read_to_string(&path).map_err(|e| e.to_string())
+    Err(format!(
+        "Lesson file not found for step {} in {}",
+        step.as_str(),
+        dir.display()
+    ))
 }
 
 pub fn parse_test_meta(content: &str) -> (Option<i32>, Option<i32>) {
@@ -836,6 +846,34 @@ fn test_passed(progress: &SubtopicProgress) -> bool {
     }
 }
 
+fn resolve_next_step(
+    repo: &Path,
+    subtopic_id: &str,
+    current: &LessonStep,
+    has_exercises: bool,
+) -> Option<LessonStep> {
+    let order = [
+        LessonStep::LectionEng,
+        LessonStep::LectionRu,
+        LessonStep::Summary,
+        LessonStep::Test,
+        LessonStep::Answers,
+        LessonStep::Exercises,
+    ];
+    let idx = order
+        .iter()
+        .position(|s| std::mem::discriminant(s) == std::mem::discriminant(current))?;
+    for next in order.iter().skip(idx + 1) {
+        if matches!(next, LessonStep::Exercises) && !has_exercises {
+            continue;
+        }
+        if read_lesson_file(repo, subtopic_id, next).is_ok() {
+            return Some(next.clone());
+        }
+    }
+    None
+}
+
 #[tauri::command]
 pub fn complete_step(
     state: State<'_, AppState>,
@@ -844,11 +882,13 @@ pub fn complete_step(
     has_exercises: bool,
 ) -> Result<SubtopicProgress, String> {
     let conn = state.db.lock().map_err(|e| e.to_string())?;
+    let repo = repo_path_or_err(&conn)?;
     let mut progress = get_progress(&conn, &subtopic_id)?;
     let lesson_step = LessonStep::from_str(&step);
+    let step_key = lesson_step.as_str().to_string();
 
-    if !progress.steps_completed.contains(&step) {
-        progress.steps_completed.push(step.clone());
+    if !progress.steps_completed.contains(&step_key) {
+        progress.steps_completed.push(step_key);
     }
 
     if progress.started_at.is_none() {
@@ -856,7 +896,7 @@ pub fn complete_step(
     }
     progress.status = SubtopicStatus::InProgress;
 
-    if let Some(next) = lesson_step.next(has_exercises) {
+    if let Some(next) = resolve_next_step(&repo, &subtopic_id, &lesson_step, has_exercises) {
         progress.current_step = next.as_str().to_string();
     } else if matches!(lesson_step, LessonStep::Answers) && !has_exercises {
         if test_passed(&progress) {

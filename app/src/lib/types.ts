@@ -1,4 +1,10 @@
-export type LessonStep = "lection" | "summary" | "test" | "answers" | "exercises";
+export type LessonStep =
+  | "lection_eng"
+  | "lection_ru"
+  | "summary"
+  | "test"
+  | "answers"
+  | "exercises";
 
 export type SubtopicStatus = "not_started" | "in_progress" | "completed";
 
@@ -120,7 +126,8 @@ export interface ReviewStats {
 }
 
 export const STEP_ORDER: LessonStep[] = [
-  "lection",
+  "lection_eng",
+  "lection_ru",
   "summary",
   "test",
   "answers",
@@ -128,7 +135,8 @@ export const STEP_ORDER: LessonStep[] = [
 ];
 
 export const STEP_LABELS: Record<LessonStep, string> = {
-  lection: "Lection",
+  lection_eng: "Lection (EN)",
+  lection_ru: "Lection (RU)",
   summary: "Summary",
   test: "Test",
   answers: "Answers",

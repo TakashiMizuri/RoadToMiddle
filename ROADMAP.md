@@ -2,7 +2,7 @@
 
 > **Стек:** C# · ASP.NET Core · PostgreSQL · EF Core · React · TypeScript · Azure · Kubernetes  
 > **Подход:** с нуля, с глубоким пониманием каждого узла  
-> **Масштаб:** 20 фаз · ~153 узла · ~1760 подтем  
+> **Масштаб:** 20 фаз · ~157 узлов · ~1815 подтем  
 > **Формат:** ключевые узлы → подтемы в папках `lessons/{id}/` (см. [AGENTS.md](./AGENTS.md))  
 > **Треки:** Фазы 0–9 = **Middle** · Фазы 10–19 = **Middle+**
 
@@ -45,6 +45,7 @@
 | **1.11** | ASP.NET Core: API design | ~40 |
 | **1.12** | EF Core: основы | ~48 |
 | **1.13** | EF Core: продвинутое | ~35 |
+| **1.18** | Algorithms in .NET/EF | ~25 |
 | **2.2** | JavaScript: closures, event loop, async | ~42 |
 | **2.5** | React: hooks (глубоко) | ~38 |
 | **2.7** | Server/client state (React Query) | ~30 |
@@ -786,6 +787,40 @@
 | 1.17.8 | Background email sending — don't block request | **глубоко** |
 | 1.17.9 | Email confirmation flow design | практика |
 | 1.17.10 | Password reset token — expiry, one-time use | **глубоко** |
+
+### Узел 1.18 — Algorithms in .NET/EF
+**ID:** `01-algorithms-dotnet-ef` | **Статус:** 🔲
+
+> **Связь с фундаментом:** применяем Big O и структуры данных из **0.8** к реальному C#, LINQ и EF Core.  
+> **Prerequisites:** 0.8 (Algorithms basics), 1.3 (LINQ), 1.12 (EF Core), 1.11.6 (pagination) — желательно 1.13.
+
+| # | Подтема | Глубина |
+|---|---------|---------|
+| 1.18.1 | Why algorithmic thinking in backend — latency under load, not LeetCode | понимание |
+| 1.18.2 | Big O cheat sheet for .NET collections — List, Dictionary, HashSet, Queue | **глубоко** |
+| 1.18.3 | `List<T>`: index O(1), Contains/IndexOf O(n), insert/remove middle O(n) | **глубоко** |
+| 1.18.4 | Dictionary/HashSet: lookup O(1) amortized — memory vs speed trade-off | **глубоко** |
+| 1.18.5 | Choose the right collection — decision tree for service-layer code | **глубоко** |
+| 1.18.6 | Nested loops smell — spot O(n²) in C# during code review | **глубоко** |
+| 1.18.7 | LINQ inside foreach — hidden in-memory N×M scans | **глубоко** |
+| 1.18.8 | Build lookup first — GroupBy + ToDictionary before nested iteration | практика |
+| 1.18.9 | EF N+1 — lazy load, missing Include, detect via SQL logging | **глубоко** |
+| 1.18.10 | Cartesian explosion — multiple Include, fix with AsSplitQuery | **глубоко** |
+| 1.18.11 | Projection wins — Select DTO in SQL vs load full entities | **глубоко** |
+| 1.18.12 | Client-side evaluation trap — Where after AsEnumerable, filter in DB | **глубоко** |
+| 1.18.13 | IQueryable leak — unbounded queries returned to callers | **глубоко** |
+| 1.18.14 | Offset pagination cost — Skip(n) gets slower as n grows (PostgreSQL) | **глубоко** |
+| 1.18.15 | Keyset/cursor pagination — stable O(limit) with EF + composite index | **глубоко** |
+| 1.18.16 | Count() + page query — avoid double full scan when possible | **глубоко** |
+| 1.18.17 | `Any()` vs `Count() > 0` — short-circuit and SQL translation | понимание |
+| 1.18.18 | Load-modify-save loop vs ExecuteUpdate/ExecuteDelete — batch algorithmics | **глубоко** |
+| 1.18.19 | In-memory join vs SQL JOIN — when to push work to PostgreSQL | **глубоко** |
+| 1.18.20 | Compiled queries — amortize expression-tree compilation (EF.CompileQuery) | понимание |
+| 1.18.21 | IMemoryCache / Dictionary cache — read-heavy paths, TTL, stampede basics | **глубоко** |
+| 1.18.22 | BenchmarkDotNet intro — measure before micro-optimizing | практика |
+| 1.18.23 | Refactoring lab — fix O(n²) in API handler (before/after) | практика |
+| 1.18.24 | Refactoring lab — fix EF N+1 and cartesian explosion | практика |
+| 1.18.25 | PR checklist — algorithm red flags in .NET/EF code review | **глубоко** |
 
 ## Фаза 2: Frontend Core
 
@@ -1545,7 +1580,7 @@
 | 5.8.8 | Metrics — request duration, error rate (concept) | понимание |
 | 5.8.9 | OpenTelemetry — Activity, Span (basics) | понимание |
 | 5.8.10 | Alerting — when to wake up on-call (concept) | понимание |
-| 5.8.11 | Frontend error tracking — Sentry (concept) | понимание |
+| 5.8.11 | Frontend error tracking — Sentry overview (hands-on in **14.10**) | понимание |
 | 5.8.12 | Dashboard — Grafana basics (concept) | понимание |
 
 ### Узел 5.9 — Performance optimization
@@ -2410,6 +2445,25 @@
 | 13.10.4 | When to adopt Kafka — high volume, replay | **глубоко** |
 | 13.10.5 | (Optional) Local Kafka + one producer/consumer | практика |
 
+### Узел 13.11 — Zero-downtime migrations & schema evolution
+**ID:** `13-zero-downtime-migrations` | **Статус:** 🔲
+
+> **Prerequisites:** 1.9 (Database Design), 1.12 (EF Core migrations), 10.5 (cloud deploy).  
+> **Цель:** менять схему и код под live traffic без простоя и без «migration broke prod».
+
+| # | Подтема | Глубина |
+|---|---------|---------|
+| 13.11.1 | Why zero-downtime matters — deploy while users online | понимание |
+| 13.11.2 | Expand–contract pattern — add column nullable → backfill → enforce | **глубоко** |
+| 13.11.3 | Backward-compatible API during schema change — old + new code | **глубоко** |
+| 13.11.4 | Rename column without downtime — dual-write / shadow column | **глубоко** |
+| 13.11.5 | EF migration on startup vs dedicated migration job — trade-offs | **глубоко** |
+| 13.11.6 | Long-running migration — batch backfill, avoid table lock | **глубоко** |
+| 13.11.7 | Rollback strategy — down migration vs forward-fix migration | **глубоко** |
+| 13.11.8 | Blue-green / slot deploy + schema version matrix | **глубоко** |
+| 13.11.9 | CI gate — idempotent migration script, dry-run on staging clone | практика |
+| 13.11.10 | Lab: add non-null column to live table with zero downtime | практика |
+
 ## Фаза 14: Observability & Performance (Production-grade)
 
 > **Prerequisite:** Capstone deployed (фаза 10 или 11). **Цель:** видеть, измерять и чинить prod.
@@ -2538,6 +2592,25 @@
 | 14.9.7 | Bundle analyzer — reduce JS size | практика |
 | 14.9.8 | Performance budget — max bundle KB | **глубоко** |
 | 14.9.9 | Fix one backend + one frontend perf issue | практика |
+
+### Узел 14.10 — Frontend error tracking (Sentry)
+**ID:** `14-sentry` | **Статус:** 🔲
+
+> **Prerequisite:** 5.8 (Observability basics), React app in capstone.  
+> **Связь:** backend logs/traces — фаза 14.1–14.4; этот узел — **client-side errors & UX failures**.
+
+| # | Подтема | Глубина |
+|---|---------|---------|
+| 14.10.1 | Why frontend monitoring — errors users see but API logs miss | **глубоко** |
+| 14.10.2 | Sentry project setup — DSN, environments (dev/staging/prod) | практика |
+| 14.10.3 | `@sentry/react` — Error Boundary integration | практика |
+| 14.10.4 | Source maps upload in CI — readable stack traces in prod | **глубоко** |
+| 14.10.5 | Breadcrumbs — user actions before crash | **глубоко** |
+| 14.10.6 | Release tracking — semver tag ↔ Sentry release | практика |
+| 14.10.7 | PII scrubbing — don't send tokens, emails in events | **глубоко** |
+| 14.10.8 | Performance monitoring — Web Vitals, slow transactions | **глубоко** |
+| 14.10.9 | Alert rules — spike in `TypeError`, new issue in prod | практика |
+| 14.10.10 | Correlate with backend — trace ID / user id in Sentry context | **глубоко** |
 
 ## Фаза 15: Security (Middle+)
 
@@ -2699,6 +2772,25 @@
 | 16.7.5 | A/B test basics — split traffic, measure conversion | понимание |
 | 16.7.6 | Trunk-based development + flags | **глубоко** |
 
+### Узел 16.8 — Search implementation lab
+**ID:** `16-search-lab` | **Статус:** 🔲
+
+> **Prerequisite:** **12.10** (Search system design). Сначала design doc, потом код.  
+> **Стек:** PostgreSQL full-text (обязательно) + Elasticsearch (optional track).
+
+| # | Подтема | Глубина |
+|---|---------|---------|
+| 16.8.1 | Implement search API from 12.10 design — endpoints + DTOs | практика |
+| 16.8.2 | PostgreSQL FTS — `tsvector`, `tsquery`, GIN index | **глубоко** |
+| 16.8.3 | Ranking — `ts_rank`, weights, prefix search | **глубоко** |
+| 16.8.4 | Sync index on write — trigger vs background worker | **глубоко** |
+| 16.8.5 | Autocomplete — prefix query, debounce on frontend | практика |
+| 16.8.6 | Faceted filters — category, price range in SQL | **глубоко** |
+| 16.8.7 | (Optional) Elasticsearch — index mapping, analyzer, bulk reindex | **глубоко** |
+| 16.8.8 | Reindex strategy — zero-downtime alias swap (concept + optional lab) | **глубоко** |
+| 16.8.9 | Search UI — highlight snippets, empty state, loading | практика |
+| 16.8.10 | Measure latency — p95 search under load (k6 or manual) | практика |
+
 ## Фаза 17: Algorithms & Interview Coding (опционально)
 
 > **Когда нужна:** компании с algo screen (FAANG-like, many product companies).  
@@ -2834,6 +2926,7 @@
 - [ ] **Outbox pattern** — reliable async events
 - [ ] **Saga or choreography** — multi-step business flow with compensation
 - [ ] **OpenTelemetry** — traces visible across components
+- [ ] **Sentry** — frontend errors tracked with source maps + release
 - [ ] **Metrics dashboard** — Grafana or Application Insights (6+ panels)
 - [ ] **Load test report** — k6 before/after optimization
 - [ ] **Caching strategy document** — implemented + measured hit rate
@@ -2976,6 +3069,9 @@ MIDDLE+ TRACK (10–19) — после Capstone 1
 | 1.6-1.7 SQL | 1.12 EF Core | EF генерирует SQL |
 | 1.4 Async | 1.10 ASP.NET | ASP.NET полностью async |
 | 1.12 EF Core | 1.13 EF Advanced | База перед продвинутым |
+| 0.8 Algorithms | 1.18 Algorithms in .NET/EF | Big O → реальный C#/EF код |
+| 1.12 EF Core | 1.18 Algorithms in .NET/EF | N+1, projection, pagination cost |
+| 1.11 API Design | 1.18 Algorithms in .NET/EF | Pagination patterns в API |
 | 3.1 Auth | 3.3 Fullstack Project | Auth в проекте |
 | 4.3 Clean Arch | 9.1 Capstone 1 | Архитектура capstone |
 | **9.1 Capstone 1** | **10.5 Cloud deploy** | Нужен проект для деплоя |
@@ -2984,6 +3080,9 @@ MIDDLE+ TRACK (10–19) — после Capstone 1
 | **6.3 SD basics** | **12.x System Design deep** | Фундамент перед 10 designs |
 | **5.7 Messaging** | **13.1 Outbox** | Queue basics перед outbox |
 | **13.1-13.5 Distributed** | **19.1 Capstone 2** | Patterns перед финальным проектом |
+| 1.12 EF Core | 13.11 Zero-downtime migrations | Schema changes под live traffic |
+| 12.10 Search design | 16.8 Search lab | Design doc перед реализацией |
+| 5.8 Observability | 14.10 Sentry | Основы observability перед frontend APM |
 | **14.1-14.5 Observability** | **19.1 Capstone 2** | Monitoring обязателен в capstone 2 |
 | **12.x Designs** | **19.3 SD interviews** | Portfolio designs для mock |
 
@@ -3002,7 +3101,7 @@ MIDDLE+ TRACK (10–19) — после Capstone 1
 | Фаза | Узлов | Подтем (approx) | Ориентир времени |
 |------|-------|-----------------|------------------|
 | 0 — Foundations | 10 | ~130 | 4–6 недель |
-| 1 — Backend Core | 17 | ~410 | 12–16 недель |
+| 1 — Backend Core | 18 | ~435 | 12–16 недель |
 | 2 — Frontend Core | 11 | ~237 | 9–12 недель |
 | 3 — Integration | 7 | ~115 | 5–7 недель |
 | 4 — Architecture | 8 | ~120 | 5–7 недель |
@@ -3011,7 +3110,7 @@ MIDDLE+ TRACK (10–19) — после Capstone 1
 | 7 — Performance | 3 | ~25 | 1–2 недели |
 | 8 — Horizon intro | 5 | ~25 | 1–2 недели |
 | 9 — Capstone 1 | 2 | project + prep | 4–6 недель |
-| **Middle итого** | **80** | **~1220** | **14–20 мес** |
+| **Middle итого** | **81** | **~1245** | **14–20 мес** |
 
 ### Middle+ Track (фазы 10–19)
 
@@ -3020,22 +3119,22 @@ MIDDLE+ TRACK (10–19) — после Capstone 1
 | 10 — Cloud & IaC | 8 | ~75 | 6–8 недель |
 | 11 — Kubernetes | 9 | ~70 | 6–8 недель |
 | 12 — System Design | 12 | ~80 | 8–10 недель |
-| 13 — Distributed Systems | 10 | ~75 | 6–8 недель |
-| 14 — Observability & Perf | 9 | ~70 | 5–7 недель |
+| 13 — Distributed Systems | 11 | ~85 | 6–8 недель |
+| 14 — Observability & Perf | 10 | ~79 | 5–7 недель |
 | 15 — Security Middle+ | 5 | ~35 | 3–4 недели |
-| 16 — Adv Frontend & Arch | 7 | ~45 | 4–5 недель |
+| 16 — Adv Frontend & Arch | 8 | ~55 | 4–5 недель |
 | 17 — Algorithms (optional) | 3 | ~25 | 3–4 недели |
 | 18 — Leadership | 6 | ~35 | 2–3 недели |
 | 19 — Capstone 2 & Career | 4 | project + ~30 | 6–8 недель |
-| **Middle+ итого** | **73** | **~540** | **8–12 мес** |
+| **Middle+ итого** | **76** | **~569** | **8–12 мес** |
 
 ### Grand Total
 
 | | Узлов | Подтем | Время |
 |---|-------|--------|-------|
-| **Full path (0–19)** | **~153** | **~1760** | **22–32 мес** |
-| Middle only (0–9) | 80 | ~1220 | 14–20 мес |
-| Middle+ addon (10–19) | 73 | ~540 | 8–12 мес |
+| **Full path (0–19)** | **~157** | **~1815** | **22–32 мес** |
+| Middle only (0–9) | 81 | ~1245 | 14–20 мес |
+| Middle+ addon (10–19) | 76 | ~569 | 8–12 мес |
 
 ### Tracking
 
@@ -3061,7 +3160,7 @@ MIDDLE+ TRACK (10–19) — после Capstone 1
 
 > «Заполни урок 0.1.1»
 
-AI создаст `1.lection.md`, `2.summary.md`, `3.test-yourself.md` и остальные файлы по шаблону из [AGENTS.md](./AGENTS.md).
+AI создаст `1.lection-eng.md`, `2.lection-ru.md`, `3.summary.md`, `4.test-yourself.md` и остальные файлы по шаблону из [AGENTS.md](./AGENTS.md).
 
 Если Git уже знаешь:
 

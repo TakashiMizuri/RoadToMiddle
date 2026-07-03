@@ -1,20 +1,17 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  LEGACY_STEP_FILES,
+  STEP_FILES,
+} from "../app/src/lib/lesson-steps.ts";
+import type { LessonStep } from "../app/src/lib/types.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const ROADMAP_PATH = path.join(ROOT, "ROADMAP.md");
 const LESSONS_DIR = path.join(ROOT, "lessons");
 const OUT_PATH = path.join(ROOT, "app", "src", "data", "roadmap.json");
-
-const STEP_FILES: Record<string, string> = {
-  lection: "1.lection.md",
-  summary: "2.summary.md",
-  test: "3.test-yourself.md",
-  answers: "4.test-yourself-answers.md",
-  exercises: "5.exercises.md",
-};
 
 export interface Subtopic {
   id: string;
@@ -43,14 +40,22 @@ export interface RoadmapData {
   phases: Phase[];
 }
 
+function stepFileExists(lessonDir: string, step: LessonStep): boolean {
+  const candidates = [
+    STEP_FILES[step],
+    ...(LEGACY_STEP_FILES[step] ?? []),
+  ];
+  return candidates.some((file) => fs.existsSync(path.join(lessonDir, file)));
+}
+
 function getLessonMeta(subtopicId: string): Pick<Subtopic, "hasLesson" | "stepsAvailable"> {
   const lessonDir = path.join(LESSONS_DIR, subtopicId);
   if (!fs.existsSync(lessonDir)) {
     return { hasLesson: false, stepsAvailable: [] };
   }
-  const stepsAvailable = Object.entries(STEP_FILES)
-    .filter(([, file]) => fs.existsSync(path.join(lessonDir, file)))
-    .map(([step]) => step);
+  const stepsAvailable = (Object.keys(STEP_FILES) as LessonStep[]).filter((step) =>
+    stepFileExists(lessonDir, step),
+  );
   return { hasLesson: stepsAvailable.length > 0, stepsAvailable };
 }
 
@@ -59,7 +64,6 @@ function parseRoadmap(content: string): RoadmapData {
   const phases: Phase[] = [];
   let currentPhase: Phase | null = null;
   let currentNode: Node | null = null;
-  let pendingSlug: string | null = null;
 
   const phaseRe = /^## Фаза (\d+):\s*(.+)$/;
   const nodeRe = /^### Узел ([\d.]+)\s*[—–-]\s*(.+)$/;
@@ -76,7 +80,6 @@ function parseRoadmap(content: string): RoadmapData {
       };
       phases.push(currentPhase);
       currentNode = null;
-      pendingSlug = null;
       continue;
     }
 
@@ -89,7 +92,6 @@ function parseRoadmap(content: string): RoadmapData {
         subtopics: [],
       };
       currentPhase.nodes.push(currentNode);
-      pendingSlug = null;
       continue;
     }
 
@@ -102,16 +104,14 @@ function parseRoadmap(content: string): RoadmapData {
     const subtopicMatch = line.match(subtopicRe);
     if (subtopicMatch && currentNode) {
       const id = subtopicMatch[1];
-      if (id === "#" || id.includes(".")) {
-        if (id === "#") continue;
-        const meta = getLessonMeta(id);
-        currentNode.subtopics.push({
-          id,
-          title: subtopicMatch[2].trim(),
-          depth: subtopicMatch[3].trim().replace(/\*\*/g, ""),
-          ...meta,
-        });
-      }
+      if (id === "#" || !id.includes(".")) continue;
+      const meta = getLessonMeta(id);
+      currentNode.subtopics.push({
+        id,
+        title: subtopicMatch[2].trim(),
+        depth: subtopicMatch[3].trim().replace(/\*\*/g, ""),
+        ...meta,
+      });
     }
   }
 

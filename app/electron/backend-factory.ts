@@ -5,8 +5,8 @@ import { fileURLToPath } from "node:url";
 import {
   createBackend,
   defaultSettings,
-  STEP_FILES,
   STORAGE_KEYS,
+  resolveStepFilenames,
 } from "../src/lib/backend-core.js";
 import type { SubtopicProgress } from "../src/lib/types.js";
 import { createSqliteStorage } from "./sqlite-storage.js";
@@ -96,13 +96,14 @@ function repoPathFromSettings(storage: ReturnType<typeof createSqliteStorage>): 
 }
 
 function readLessonFromRepo(repoPath: string, subtopic_id: string, step: string): string {
-  const file = STEP_FILES[step];
-  if (!file) throw new Error(`Unknown step: ${step}`);
-  const filePath = path.join(repoPath, "lessons", subtopic_id, file);
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`Lesson file not found: ${filePath}`);
+  const lessonDir = path.join(repoPath, "lessons", subtopic_id);
+  for (const file of resolveStepFilenames(step)) {
+    const filePath = path.join(lessonDir, file);
+    if (fs.existsSync(filePath)) {
+      return fs.readFileSync(filePath, "utf8");
+    }
   }
-  return fs.readFileSync(filePath, "utf8");
+  throw new Error(`Lesson file not found for step "${step}" in ${lessonDir}`);
 }
 
 async function writeProgressMd(progress: SubtopicProgress[], repoPath: string): Promise<void> {
@@ -130,7 +131,7 @@ export function createElectronBackend(userDataDir: string) {
   const legacyAppDb = path.join(userDataDir, REPO_DB_FILE);
   const legacyDataDir = path.join(userDataDir, "data");
 
-  migrateDatabaseToRepo(dbPath, legacyAppDb, legacyJsonDir);
+  migrateDatabaseToRepo(dbPath, legacyAppDb, legacyDataDir);
 
   const storage = createSqliteStorage(dbPath, legacyDataDir);
 

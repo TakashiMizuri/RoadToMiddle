@@ -53,7 +53,7 @@ function runMigrations(db: Database.Database): void {
     CREATE TABLE IF NOT EXISTS subtopic_progress (
       subtopic_id TEXT PRIMARY KEY,
       status TEXT NOT NULL DEFAULT 'not_started',
-      current_step TEXT NOT NULL DEFAULT 'lection',
+      current_step TEXT NOT NULL DEFAULT 'lection_eng',
       steps_completed TEXT NOT NULL DEFAULT '[]',
       test_score INTEGER,
       test_max_score INTEGER,
